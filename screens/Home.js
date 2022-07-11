@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
-import { View, Text, SafeAreaView, ScrollView } from "react-native";
-import HeaderTabs from "../components/HeaderTabs";
-import SearchBar from "../components/SearchBar";
-import Categories from "../components/Categories";
+import { View, Text, SafeAreaView, ScrollView} from "react-native";
+import HeaderTabs from "../components/home/HeaderTabs";
+import SearchBar from "../components/home/SearchBar";
+import Categories from "../components/home/Categories";
+import BottomTabs from "../components/home/BottomTabs";
 import RestaurantItems, {
   localRestaurants,
-} from "../components/RestaurantItems";
+} from "../components/home/RestaurantItems";
+import { Divider } from "react-native-elements";
 
 const YELP_API_KEY =
   "9WL0P5GNElwJDrgW0skOIdpzl3lAQuuW6ACnAk-8TWPebnlMAdOeDA1zKxlrYFAaRi9BLawJg4Nt8-Lo9Fabr6XP1tsYf5Dc8bMgxhghemlii6rrQhDrqqQSBKDGYnYx";
 
 export default function Home() {
   const [restaurantData, setRestaurantData] = React.useState(localRestaurants);
-  const [city, setCity] = React.useState("San Francisco");
+  const [city, setCity] = React.useState("NewYork");
   const [activeTab, setActiveTab] = React.useState("Delivery");
   const getRestaurantsFromYelp = () => {
     const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
@@ -46,6 +48,8 @@ export default function Home() {
         <Categories />
         <RestaurantItems restaurantData={restaurantData} />
       </ScrollView>
+      <Divider width={1}/>
+      <BottomTabs/>
     </SafeAreaView>
   );
 }
