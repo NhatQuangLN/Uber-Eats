@@ -52,7 +52,7 @@ export default function MenuItems(props) {
             <FoodInfo food={food} />
             <FoodImage food={food} />
           </View>
-          <Divider width={0.5} orientation="vertical" />
+          <Divider width={0.5} orientation="vertical" style={{marginHorizontal: 20}} />
         </View>
       ))}
     </ScrollView>
