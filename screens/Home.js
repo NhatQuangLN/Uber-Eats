@@ -12,9 +12,9 @@ import { Divider } from "react-native-elements";
 const YELP_API_KEY =
   "9WL0P5GNElwJDrgW0skOIdpzl3lAQuuW6ACnAk-8TWPebnlMAdOeDA1zKxlrYFAaRi9BLawJg4Nt8-Lo9Fabr6XP1tsYf5Dc8bMgxhghemlii6rrQhDrqqQSBKDGYnYx";
 
-export default function Home() {
+export default function Home({navigation}) {
   const [restaurantData, setRestaurantData] = React.useState(localRestaurants);
-  const [city, setCity] = React.useState("NewYork");
+  const [city, setCity] = React.useState("Hawaii");
   const [activeTab, setActiveTab] = React.useState("Delivery");
   const getRestaurantsFromYelp = () => {
     const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${city}`;
@@ -46,7 +46,7 @@ export default function Home() {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Categories />
-        <RestaurantItems restaurantData={restaurantData} />
+        <RestaurantItems restaurantData={restaurantData} navigation={navigation}/>
       </ScrollView>
       <Divider width={1}/>
       <BottomTabs/>
