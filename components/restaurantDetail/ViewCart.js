@@ -1,11 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import OrderItem from "./OrderItem";
-
-export default function ViewCart() {
+import firebase from "../../firebase";
+export default function ViewCart({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
-  const {items,restaurantName} = useSelector((state) => state.cartReducer.selectedItems);
+  const { items, restaurantName } = useSelector(
+    (state) => state.cartReducer.selectedItems
+  );
   const total = items
     .map((item) => Number(item.price.replace("$", "")))
     .reduce((prev, curr) => prev + curr, 0);
@@ -13,6 +15,16 @@ export default function ViewCart() {
     style: "currency",
     currency: "USD",
   });
+  const addOrderToFireBase = () => {
+    const db = firebase.firestore();
+    db.collection("orders").add({
+      items: items,
+      restaurantName: restaurantName,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    setModalVisible(false);
+    navigation.navigate("OrderCompleted")
+  };
   const styles = StyleSheet.create({
     modalContainer: {
       flex: 1,
@@ -48,19 +60,19 @@ export default function ViewCart() {
     },
   });
   const checkoutModalContent = () => {
-    return(
+    return (
       <>
-      <View style={styles.modalContainer}>
-      <View style={styles.modalCheckoutContainer}>
-        <Text style={styles.restaurantName}>{restaurantName}</Text>
-        {items.map((item, index) => (
+        <View style={styles.modalContainer}>
+          <View style={styles.modalCheckoutContainer}>
+            <Text style={styles.restaurantName}>{restaurantName}</Text>
+            {items.map((item, index) => (
               <OrderItem key={index} item={item} />
             ))}
-      <View style={styles.subtotalContainer}>
+            <View style={styles.subtotalContainer}>
               <Text style={styles.subtotalText}>Subtotal</Text>
               <Text>{totalUSD}</Text>
-      </View> 
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+            </View>
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
               <TouchableOpacity
                 style={{
                   marginTop: 20,
@@ -72,7 +84,7 @@ export default function ViewCart() {
                   position: "relative",
                 }}
                 onPress={() => {
-                  setModalVisible(false);
+                  addOrderToFireBase();
                 }}
               >
                 <Text style={{ color: "white", fontSize: 20 }}>Checkout</Text>
@@ -88,22 +100,22 @@ export default function ViewCart() {
                   {total ? totalUSD : ""}
                 </Text>
               </TouchableOpacity>
-            </View>    
-      </View>
-      </View>
+            </View>
+          </View>
+        </View>
       </>
-    )
+    );
   };
   return (
     <>
-    <Modal 
-      animationType="slide" 
-      visible={modalVisible}
-      transparent={true}
-      onRequestClose={()=> setModalVisible(false)}
-    >
-      {checkoutModalContent()}
-    </Modal>
+      <Modal
+        animationType="slide"
+        visible={modalVisible}
+        transparent={true}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        {checkoutModalContent()}
+      </Modal>
       {total ? (
         <View
           style={{
@@ -128,16 +140,18 @@ export default function ViewCart() {
                 marginTop: 20,
                 backgroundColor: "black",
                 flexDirection: "row",
-                justifyContent:"flex-end",
+                justifyContent: "flex-end",
                 padding: 15,
                 borderRadius: 30,
                 width: 300,
                 position: "relative",
               }}
-              onPress={()=> setModalVisible(true)}
+              onPress={() => setModalVisible(true)}
             >
-              <Text style={{ color: "white", fontSize: 20, marginRight: 30 }}>View Cart</Text>
-              <Text style={{ color: "white", fontSize: 20}}>{totalUSD}</Text>
+              <Text style={{ color: "white", fontSize: 20, marginRight: 30 }}>
+                View Cart
+              </Text>
+              <Text style={{ color: "white", fontSize: 20 }}>{totalUSD}</Text>
             </TouchableOpacity>
           </View>
         </View>
