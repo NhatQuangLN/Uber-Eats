@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import LottieView from "lottie-react-native";
 import MenuItems from "../components/restaurantDetail/MenuItems";
 import firebase from "../firebase";
-export default function OrderCompleted() {
+export default function OrderCompleted({navigation}) {
   const [lastOrder, setLastOrder] = useState({
     items: [
       {
@@ -74,6 +74,7 @@ export default function OrderCompleted() {
             autoPlay
             speed={0.5}
           />
+        <Text style={{textAlign: "center", marginTop: 50, fontWeight: "900", marginBottom: 100 }} onPress={() => navigation.navigate("Home")}>Go Back Home</Text>
         </ScrollView>
       </View>
     </SafeAreaView>

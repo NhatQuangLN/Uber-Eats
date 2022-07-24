@@ -27,11 +27,11 @@ const foods = [
       "https://www.simplyrecipes.com/thmb/RPxc7ZM0TyEztssOZJay1mtlvCs=/3000x2000/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Chilaquiles-LEAD-2-4c72e13d2f924120a7f673ff4b4b1283.jpg",
   },
   {
-    title: "Chilaquiles",
-    description: "Chilaquile with cheese and sauce. A delicious mexican dish",
-    price: "$14.50",
+    title: "BBQ American",
+    description: "BBQ with chicken and good. Much be best dish in the year",
+    price: "$11.62",
     image:
-      "https://www.simplyrecipes.com/thmb/RPxc7ZM0TyEztssOZJay1mtlvCs=/3000x2000/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Chilaquiles-LEAD-2-4c72e13d2f924120a7f673ff4b4b1283.jpg",
+      "https://cdn.tgdd.vn/2021/03/CookProduct/Bbq-la-gi-nguon-goc-va-cac-cach-tu-lam-bbq-tai-nha-vo-cung-don-gian-0-1200x676.jpg",
   },
 ];
 export default function RestaurantDetail({ route, navigation }) {

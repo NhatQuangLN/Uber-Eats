@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import OrderItem from "./OrderItem";
 import firebase from "../../firebase";
@@ -7,7 +8,7 @@ import LottieView from "lottie-react-native";
 export default function ViewCart({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
   const { items, restaurantName } = useSelector(
     (state) => state.cartReducer.selectedItems
   );
@@ -28,8 +29,10 @@ export default function ViewCart({navigation}) {
     }).then(()=>{
       setTimeout(()=>{
         setLoading(false);
-        navigation.navigate("OrderCompleted");
-        
+        dispatch({
+          type: "DELETE_TO_CART",
+        })
+        navigation.navigate("OrderCompleted" ,{navigation: navigation});
       }, 2500);
     });
   
